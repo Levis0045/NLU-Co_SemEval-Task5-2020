@@ -1,0 +1,18 @@
+language: "en"
+
+pipeline:
+- name: "MitieNLP"
+  model: "data/total_word_feature_extractor.dat"
+- name: MitieTokenizer
+  "intent_tokenization_flag": true
+  "intent_split_symbol": "_"
+- name: MitieFeaturizer
+- name: RegexFeaturizer
+- name: MitieEntityExtractor
+  num_threads: 16
+  n_jobs: 12
+- name: MitieIntentClassifier
+  num_threads: 16
+  n_jobs: 12
+
+

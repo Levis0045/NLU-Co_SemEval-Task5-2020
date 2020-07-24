@@ -1,0 +1,44 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+streamlit = "*"
+pandas = "*"
+nltk = "*"
+matplotlib = "*"
+gensim = "*"
+wordcloud = "*"
+sklearn = "*"
+bokeh = "*"
+keras = "*"
+rasa = "*"
+rasa-nlu="*"
+rasa-sdk="*"
+seaborn = "*"
+pyLDAvis ="*"
+IPython="*"
+sklearn-crfsuite="*"
+snips-nlu="*"
+snips-nlu-en="*"
+snips-nlu-metrics="*"
+snips-nlu-parsers="*"
+snips-nlu-utils="*"
+tensor2tensor="*"
+tensorboard="*"
+tensorflow="*"
+tensorflow-addons="*"
+tensorflow-datasets="*"
+tensorflow-estimator="*"
+tensorflow-gan="*"
+tensorflow-gpu="*"
+tensorflow-hub="*"
+tensorflow-metadata="*"
+tensorflow-probability="*"
+tensorflow-text="*"
+
+[requires]
+python_version = "3.6"

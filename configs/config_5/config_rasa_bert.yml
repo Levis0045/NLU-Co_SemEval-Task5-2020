@@ -1,0 +1,43 @@
+language: "en"
+
+pipeline:
+- name: HFTransformersNLP
+  # Name of the language model to use
+  model_name: "bert"
+  # Pre-Trained weights to be loaded
+  # model_weights: "bert-base-uncased"
+  # An optional path to a specific directory to download and cache the pre-trained model weights.
+  # The `default` cache_dir is the same as https://huggingface.co/transformers/serialization.html#cache-directory .
+  cache_dir: null
+- name: ConveRTTokenizer
+- name: ConveRTFeaturizer
+- name: RegexFeaturizer
+- name: DIETClassifier
+  epochs: 100
+  batch_strategy: "balanced"
+  learning_rate": 0.0001
+  use_masked_language_model: true
+  tensorboard_log_level: "epoch"
+  tensorboard_log_directory: "log"
+  drop_rate: 0.01
+  batch_size: [64, 64]
+  negative_margin_scale: 0.6
+  maximum_positive_similarity: 0.6
+  maximum_negative_similarity: -0.2
+  similarity_type: "inner"
+  embedding_dimension: 50
+  number_of_negative_examples: 20
+  share_hidden_layers: false
+  transformer_size: 128
+  number_of_transformer_layers: 3
+  number_of_attention_heads: 128
+  weight_sparsity: 0.7
+  entity_recognition: false
+  intent_classification: true
+  #evaluate_every_number_of_epochs: 40
+  #evaluate_on_number_of_examples: 100
+  hidden_layers_sizes: 
+    text: [256]
+    label: [256]
+
+

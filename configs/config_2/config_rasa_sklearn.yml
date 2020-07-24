@@ -1,0 +1,15 @@
+language: "en"
+
+pipeline:
+- name: SpacyNLP                    # loads the spacy language model
+- name: SpacyTokenizer              # splits the sentence into tokens
+- name: SpacyEntityExtractor        # uses the pretrained spacy NER model(Entity Extraction)
+- name: RegexFeaturizer
+- name: SpacyFeaturizer             # creates sentence vector representations
+- name: SklearnIntentClassifier     # defines the classifier
+  num_threads: 32
+  n_jobs: 32
+  verbose: 10
+  random_seed: 10
+  return_train_score: false
+

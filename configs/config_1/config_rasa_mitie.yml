@@ -1,0 +1,35 @@
+language: "en"
+
+pipeline:
+- name: "MitieNLP"
+  # language model to load
+  model: "data/total_word_feature_extractor.dat"
+- name: MitieTokenizer
+  # Flag to check whether to split intents
+  "intent_tokenization_flag": true
+  # Symbol on which intent should be split
+  "intent_split_symbol": "_"
+- name: MitieFeaturizer
+- name: CountVectorsFeaturizer
+  "analyzer": 'word'  # use 'char' or 'char_wb' for character
+  "token_pattern": r'(?u)\b\w\w+\b'
+  "strip_accents": 'ascii'  # {'ascii', 'unicode', None}
+  "stop_words": 'english'  # string {'english'}, list, or None (default)
+  "min_df": 0.8  # float in range [0.0, 1.0] or int
+  "max_df": 1.0  # float in range [0.0, 1.0] or int
+  "min_ngram": 1  # int
+  "max_ngram": 2  # int
+  "max_features": null  # int or None
+  "lowercase": true  # bool
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+  features: [
+    ["low", "title", "upper"],
+    ["BOS", "EOS", "low", "upper", "title", "digit"],
+    ["low", "title", "upper"],
+  ]
+- name: MitieEntityExtractor
+- name: MitieIntentClassifier
+
+
+

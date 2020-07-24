@@ -1,0 +1,42 @@
+language: "en"
+
+pipeline:
+- name: SpacyNLP
+  # language model to load
+  model: "en_core_web_sm"
+  case_sensitive: true
+- name: SpacyTokenizer
+- name: SpacyFeaturizer
+- name: RegexFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: "word"
+  min_ngram: 1
+  max_ngram: 1
+  #"OOV_token": "_oov_"
+  use_shared_vocab: false
+- name: LexicalSyntacticFeaturizer
+- name: DIETClassifier
+  epochs: 300
+  batch_strategy: "balanced"
+  learning_rate": 0.0001
+  use_masked_language_model: true
+  tensorboard_log_level: "epoch"
+  tensorboard_log_directory: "log"
+  drop_rate: 0.01
+  negative_margin_scale: 0.6
+  maximum_positive_similarity: 0.6
+  maximum_negative_similarity: -0.2
+  similarity_type: "inner"
+  embedding_dimension: 50
+  number_of_negative_examples: 20
+  share_hidden_layers: false
+  transformer_size: 128
+  number_of_transformer_layers: 3
+  number_of_attention_heads: 128
+  weight_sparsity: 0.7
+  entity_recognition: false
+  #evaluate_every_number_of_epochs: 40
+  #evaluate_on_number_of_examples: 100
+  hidden_layers_sizes: 
+    text: [256]
+    label: [256]

@@ -1,0 +1,35 @@
+language: "en"
+
+pipeline:
+- name: ConveRTTokenizer
+- name: ConveRTFeaturizer
+- name: RegexFeaturizer
+#- name: MitieEntityExtractor
+- name: LexicalSyntacticFeaturizer
+- name: DIETClassifier
+  epochs: 150
+  batch_strategy: "balanced"
+  learning_rate": 0.0001
+  batch_size: [64, 64]
+  use_masked_language_model: true
+  tensorboard_log_level: "epoch"
+  tensorboard_log_directory: "log"
+  drop_rate: 0.001
+  negative_margin_scale: 0.6
+  maximum_positive_similarity: 0.6
+  maximum_negative_similarity: -0.2
+  similarity_type: "inner"
+  embedding_dimension: 50
+  number_of_negative_examples: 20
+  share_hidden_layers: false
+  transformer_size: 128
+  number_of_transformer_layers: 3
+  number_of_attention_heads: 128
+  weight_sparsity: 0.8
+  entity_recognition: false
+  intent_classification: true
+  #evaluate_every_number_of_epochs: 40
+  #evaluate_on_number_of_examples: 100
+  hidden_layers_sizes: 
+    text: [256]
+    label: [256]

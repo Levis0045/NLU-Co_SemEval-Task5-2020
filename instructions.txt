@@ -1,0 +1,74 @@
+Submission Details & Evaluation Criteria
+
+We provide datasets for task-1 and task-2 respectively, and both will include train.csv and test.csv. 
+
+Please note that you could only use the corresponding dataset for task-1 to build models for task-1 and dataset for task-2 to build models for task-2 to ensure fairness.
+
+Here we provide two example zip files to show the format of submission. In 'Participate -> Submit/View Results -> Practise-Subtask1' or '...->Practise-Subtask2', you could also try to submit your own results to verify the format. 
+
+A valid submission zip file for CodaLab contains one of the following files:
+
+    subtask1.csv (only submitted to "xxx-Subtask1" section)
+    subtask2.csv (only submitted to "xxx-Subtask2" section)
+
+* The .csv file with the incorrect file name (sensitive to capitalization of letters) will not be accepted.
+
+* A zip file containing both files will not be accepted.
+
+* Neither .csv nor .rar file will be accepted, only .zip file is accepted.
+
+* Please zip your results file (e.g. subtask1.csv) directly without putting it into a folder and zipping the folder.
+Submission format for task1
+
+For the pred_label, '1' refers to counterfactual while '0' refers to non-counterfactual. The 'sentenceID' should be in the same order as in 'test.csv' for subtask-1 (in evaluation phase).
+sentenceID 	pred_label
+322893 	1
+322892 	0
+... 	... 
+
+Submission format for task2
+
+If there is no consequent part (a consequent part not always exists in a counterfactual statement) in this sentence, please put '-1' in the consequent_startid and 'consequent_endid'. The 'sentenceID' should be in the same order as in 'test.csv' for subtask-2 (in evaluation phase).
+sentenceID 	antecedent_startid 	antecedent_endid 	consequent_startid 	consequent_endid
+104975 	15 	72 	88 	100
+104976 	18 	38 	-1 	-1
+... 	... 	... 	... 	...
+
+Example of train.csv for subtask1
+
+sentenceID,gold_label,sentence
+
+"6000627","1","Had Russia possessed such warships in 2008, boasted its naval chief, Admiral Vladimir Vysotsky, it would have won its war against Georgia in 40 minutes instead of 26 hours."
+
+    sentenceID: indicating which sentence you are labeling
+    gold_label: if you estimate the sentence is counterfactual, put 1, otherwise please put 0
+    sentence: the original sentence as the one in the provided dataset
+
+Example of train.csv for subtask2
+
+sentenceID,sentence,domain,antecedent_startid,antecedent_endid,consequence_startid, consequence_endid
+
+3S0001,"For someone who's so emotionally complicated, who could have given up many times if he was made of straw - he hasn't.",Health,83,105,48,81
+
+    sentenceID: indicating which sentence you are labeling
+    sentence: the original sentence as the provided dataset
+    domain: the sentence related to a specific domain
+    antecedent_startid: the index of the original sentence where your predicted antecedent starts (index of the character in the corresponding sentence)
+    antecedent_endid:  the index of the original sentence where your predicted antecedent ends (index of the character in the corresponding sentence)
+    consequent_startid: the index of the original sentence where your predicted consequence starts (if the consequent part is not available, put -1 here)
+    consequent_endid:  the index of the original sentence where your predicted consequence ends (if the consequent part is not available, put -1 here)
+
+ 
+Evaluation Method
+
+Participants have to participate in both of the 2 tasks. The evaluation metrics that will be applied are:
+
+    Subtask1: Precision, Recall, and F1
+
+The evaluation script will verify whether the predicted binary "label" is the same as the desired "label" which is annotated by human workers, and then calculate its precision, recall, and F1 scores.
+
+    Subtask2: Exact Match, Precision, Recall, and F1
+
+Exact Match will represent what percentage of both your predicted antecedents and consequences are exactly matched with the desired outcome that is annotated by human workers. 
+
+F1 score is a token level metric and will be calculated according to the submitted antecedent_startid, antecedent_endid, consequent_startid, consequent_endid. Please refer to our baseline model for evaluation details. 

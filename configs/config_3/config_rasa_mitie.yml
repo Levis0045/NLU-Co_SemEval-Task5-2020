@@ -1,0 +1,66 @@
+language: "en"
+
+pipeline:
+- name: "MitieNLP"
+  model: "data/total_word_feature_extractor.dat"
+#- name: SpacyNLP
+- name: MitieTokenizer
+  "intent_tokenization_flag": false
+  "intent_split_symbol": "_"
+#- name: SpacyTokenizer 
+#- name: SpacyFeaturizer  
+- name: MitieFeaturizer
+  # Specify what pooling operation should be used to calculate the vector of
+  # the __CLS__ token. Available options: 'mean' and 'max'.
+  "pooling": "max"
+- name: CountVectorsFeaturizer
+  analyzer: "word"
+  min_ngram: 1
+  max_ngram: 3
+  #"OOV_token": "_oov_"
+  use_shared_vocab: false
+- name: LexicalSyntacticFeaturizer
+  features: [
+    ["low", "title", "upper"],
+    ["BOS", "EOS", "low", "upper", "title", "digit"],
+    ["low", "title", "upper"],
+  ]
+- name: RegexFeaturizer
+- name: CRFEntityExtractor                                
+  # BILOU_flag determines whether to use BILOU tagging or not.
+  "BILOU_flag": True
+  # features to extract in the sliding window
+  "features": [
+    ["low", "title", "upper"],
+    [
+      "bias",
+      "low",
+      "prefix5",
+      "prefix2",
+      "suffix5",
+      "suffix3",
+      "suffix2",
+      "upper",
+      "title",
+      "digit",
+      "pattern",
+      "text_dense_features"
+    ],
+    ["low", "title", "upper"],
+  ]
+  # The maximum number of iterations for optimization algorithms.
+  "max_iterations": 200
+  # weight of the L1 regularization
+  "L1_c": 0.1
+  # weight of the L2 regularization
+  "L2_c": 0.1
+- name: CRFEntityExtractor
+- name: MitieEntityExtractor
+  epsilon: 0.01
+  max_iterations: 5000
+  num_threads: 8
+- name: MitieEntityExtractor
+  epsilon: 0.01
+  max_iterations: 5000
+  num_threads: 8  
+

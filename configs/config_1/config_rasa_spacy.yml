@@ -1,0 +1,71 @@
+language: "en"
+
+pipeline:
+- name: ConveRTTokenizer
+- name: ConveRTFeaturizer
+#- name: MitieFeaturizer
+- name: RegexFeaturizer
+- name: DIETClassifier
+  epochs: 500
+  batch_strategy: "balanced"
+  learning_rate: 0.0001
+  use_masked_language_model: true
+  tensorboard_log_level: "epoch"
+  tensorboard_log_directory: "log"
+  drop_rate: 0.01
+  batch_size: [64, 128]
+  negative_margin_scale: 0.6
+  maximum_positive_similarity: 0.6
+  maximum_negative_similarity: -0.2
+  similarity_type: "inner"
+  embedding_dimension: 50
+  number_of_negative_examples: 20
+  share_hidden_layers: false
+  transformer_size: 128
+  number_of_transformer_layers: 3
+  number_of_attention_heads: 128
+  weight_sparsity: 0.8
+  entity_recognition: false
+  intent_classification: true
+  evaluate_every_number_of_epochs: 40
+  evaluate_on_number_of_examples: 500
+  random_seed: 10
+  hidden_layers_sizes: 
+    text: [256]
+    label: [256]
+
+#- name: EmbeddingIntentClassifier
+  # nn architecture
+  #"hidden_layers_sizes_a": [256, 128]
+  #"hidden_layers_sizes_b": [256, 128]
+  #"hidden_layers_sizes_c": [128, 64]
+  #"hidden_layers_sizes_d": [128, 64]  
+  #"hidden_layers_sizes_e": [64, 32]  
+  #"hidden_layers_sizes_f": [64, 32]
+  #"batch_size": [64, 256]
+  #"epochs": 100
+  #"learning_rate": 0.1
+  # embedding parameters
+  #"embed_dim": 100
+  #"mu_pos": 0.6  # should be 0.0 < ... < 1.0 for 'cosine'
+  #"mu_neg": -0.2  # should be -1.0 < ... < 1.0 for 'cosine'
+  #"similarity_type": "inner"  # string 'cosine' or 'inner'
+  #"num_neg": 20
+  #"use_max_sim_neg": true  # flag which loss function to use
+  #"random_seed": 10 # set to any int to generate a reproducible training result
+  # regularization
+  #"C2": 0.0001
+  #"C_emb": 0.8
+  #"droprate": 0.01
+  #"ranking_length": 5
+  # flag for tokenizing intents
+  #"intent_tokenization_flag": false
+  #"intent_split_symbol": "_"
+  # visualization of accuracy
+  #"evaluate_every_num_epochs": 40  # small values may hurt performance
+  #"evaluate_on_num_examples": 1000  # large values may hurt performance
+- name: "EntitySynonymMapper"
+
+policies:
+  - name: EmbeddingPolicy
+    max_history: 10

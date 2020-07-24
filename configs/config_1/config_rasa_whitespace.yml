@@ -1,0 +1,28 @@
+language: "en"
+
+pipeline:
+- name: "MitieNLP"
+  # language model to load
+  model: "data/total_word_feature_extractor.dat"
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+  # n-grams at the edges of words are padded with
+  "analyzer": 'word'  # use 'char' or 'char_wb' for character
+  "strip_accents": 'ascii'  # {'ascii', 'unicode', None}
+  "stop_words": 'english'  # string {'english'}, list, or None (default)
+  "min_df": 1  # float in range [0.0, 1.0] or int
+  "max_df": 1.0  # float in range [0.0, 1.0] or int
+  "min_ngram": 1  # int
+  "max_ngram": 2  # int
+  "max_features": null  # int or None
+  "lowercase": true  # bool
+- name: "KeywordIntentClassifier"
+  case_sensitive: True
+- name: EntitySynonymMapper
+- name: ResponseSelector
+
+policies:
+  - name: EmbeddingPolicy
+    max_history: 10

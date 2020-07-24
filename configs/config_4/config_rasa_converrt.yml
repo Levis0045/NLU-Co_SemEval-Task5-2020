@@ -1,0 +1,42 @@
+language: "en"
+
+pipeline:
+  - name: "MitieNLP"
+    model: "data/total_word_feature_extractor.dat"
+  - name: ConveRTTokenizer
+  - name: ConveRTFeaturizer
+  - name: RegexFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: "word"
+    min_ngram: 1
+    max_ngram: 2
+    #"OOV_token": "_oov_"
+    use_shared_vocab: false
+  - name: LexicalSyntacticFeaturizer
+    features: [
+      ["low", "title", "upper"],
+      ["BOS", "EOS", "low", "upper", "title", "digit"],
+      ["low", "title", "upper"]
+    ]
+  - name: CRFEntityExtractor
+    # BILOU_flag determines whether to use BILOU tagging or not.
+    "BILOU_flag": true
+    # features to extract in the sliding window
+    "features": [
+      ["low", "title", "upper"],
+      ["bias", "low", "prefix5",
+       "prefix2", "suffix5","suffix3",
+       "suffix2","upper","title",
+       "digit", "pattern",
+      ],
+      ["low", "title", "upper"],
+    ]
+    # The maximum number of iterations for optimization algorithms.
+    "max_iterations": 150
+    # weight of the L1 regularization
+    "L1_c": 0.1
+    # weight of the L2 regularization
+    "L2_c": 0.01
+  - name: EntitySynonymMapper
+  - name: "MitieIntentClassifier"
+    case_sensitive: true

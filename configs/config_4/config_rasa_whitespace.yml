@@ -1,0 +1,39 @@
+language: "en"
+
+pipeline:
+- name: "MitieNLP"
+  # language model to load
+  model: "data/total_word_feature_extractor.dat"
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+  # n-grams at the edges of words are padded with
+  "analyzer": 'word'  # use 'char' or 'char_wb' for character
+  # regular expression for tokens
+  #"token_pattern": r'(?u)\b\w\w+\b'
+  "strip_accents": 'ascii'  # {'ascii', 'unicode', None}
+  # list of stop words
+  "stop_words": 'english'  # string {'english'}, list, or None (default)
+  # min document frequency of a word to add to vocabulary
+  "min_df": 1  # float in range [0.0, 1.0] or int
+  # integer - absolute counts
+  "max_df": 1.0  # float in range [0.0, 1.0] or int
+  # set ngram range
+  "min_ngram": 1  # int
+  "max_ngram": 1  # int
+  # limit vocabulary size
+  "max_features": null  # int or None
+  # if convert all characters to lowercase
+  "lowercase": true  # bool
+  # will be converted to lowercase if lowercase is true
+  #"OOV_token": None  # string or None
+  #"OOV_words": [to, the, a, an, ]  # list of strings
+- name: "KeywordIntentClassifier"
+  case_sensitive: true
+- name: EntitySynonymMapper
+- name: ResponseSelector
+
+policies:
+  - name: EmbeddingPolicy
+    max_history: 10

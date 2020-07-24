@@ -1,0 +1,19 @@
+language: "en"
+
+Pipeline:
+ # splits the words into tokens using whitespace
+- name: WhitespaceTokenizer                    
+# uses the pretrained spacy NER model(Entity Extraction)
+- name: CRFEntityExtractor                                
+# Maps synonymous entity values to the same value.
+- name: CRFEntityExtractor
+# Creates a regex representation of intent features                            
+- name: RegexFeaturizer         
+# Creates a bag-of-words representation of intent features                            
+- name: "intent_featurizer_count_vectors"     
+# Embedding intent classifier
+- name: "intent_classifier_tensorflow_embedding"
+  num_threads: 8
+
+
+
