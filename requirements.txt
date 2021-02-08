@@ -82,7 +82,7 @@ h5py==2.10.0
 hpack==3.0.0
 hstspreload==2020.4.28
 httpcore==0.3.0
-httplib2==0.14.0
+httplib2==0.19.0
 httptools==0.0.13
 httpx==0.9.3
 humanfriendly==4.18
